@@ -12,8 +12,8 @@ homepage = "https://github.com/srotas-space/moniof"
 repository = "https://github.com/srotas-space/moniof"
 readme = "README.md"
 license = "MIT"
-keywords = ["actix", "n-plus-one", "n+1", "middleware", "mongodb", "sqlx", "observability", "performance"]
-categories = ["web-programming", "monitoring", "database", "development-tools"]
+keywords = ["actix", "n+1", "observability", "mongodb", "sqlx"]
+categories = ["database", "web-programming", "development-tools"]
 exclude = ["/examples/*", "/target/*", "*.sh"]
 
 [dependencies]
