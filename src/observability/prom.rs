@@ -74,7 +74,7 @@ pub fn observe_request(method: &str, status: u16, dur_seconds: f64, db_total_sec
         h.with_label_values(&[method]).observe(dur_seconds);
     }
     if let Some(h) = DB_TOTAL_HISTO.get() {
-        h.with_label_values(&["mongo"]).observe(db_total_seconds);
+        h.with_label_values(&["all"]).observe(db_total_seconds);
     }
 }
 

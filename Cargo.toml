@@ -1,34 +1,63 @@
 [package]
 name = "moniof"
 version = "0.1.0"
-edition = "2024"
-rust-version = "1.89.0"
-description = "Actix middleware to monitor over featch and detect N+1 / overfetch queries (Mongo + SQL agnostic)"
-authors = ["Snm Maurya <sxmmaurya@gmail.com>", "Deepak Maurya <deepxmaurya@gmail.com>"]
+edition = "2021"
+rust-version = "1.75"
+description = "Actix middleware to monitor over-fetching and detect N+1 / overfetch database patterns (Mongo + SQL-agnostic)"
+authors = [
+    "Snm Maurya <sxmmaurya@gmail.com>",
+]
 documentation = "https://docs.rs/moniof"
-homepage = "https://github.com/xsmmaurya/moniof"
-repository = "https://github.com/xsmmaurya/moniof"
+homepage = "https://github.com/srotas-space/moniof"
+repository = "https://github.com/srotas-space/moniof"
 readme = "README.md"
 license = "MIT"
-keywords = ["actix", "n+1", "middleware", "mongodb", "sqlx", "observability"]
+keywords = ["actix", "n-plus-one", "n+1", "middleware", "mongodb", "sqlx", "observability", "performance"]
+categories = ["web-programming", "monitoring", "database", "development-tools"]
+exclude = ["/examples/*", "/target/*", "*.sh"]
 
 [dependencies]
+# Web middleware
 actix-web = "4"
+
+# Tracing + layers (for SQLx)
 tracing = "0.1"
-tracing-subscriber = "0.3"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt", "registry"] }
+
+
+# Internal utilities
 parking_lot = "0.12"
 once_cell = "1.19"
 ahash = "0.8"
 time = "0.3"
+
+# Async runtime
 tokio = { version = "1", features = ["rt", "macros"] }
 futures-util = "0.3"
-serde = { version = "1", features = ["derive"] }
-dashmap = "5"
-reqwest = { version = "0.12", features = ["json", "rustls-tls"] }
+
+# Optional MongoDB event instrumentation
 mongodb = { version = "2", optional = true, features = ["tokio-runtime"] }
+
+# Prometheus endpoint exporter
 prometheus = "0.14"
+
+# Lightweight serialization for internal config structs
+serde = { version = "1", features = ["derive"] }
+
+# Optional HTTP client (Slack notifications)
+reqwest = { version = "0.12", features = ["json", "rustls-tls"] }
+
+# Optional SQLx support
+sqlx = { version = "0.8", optional = true, default-features = false, features = ["runtime-tokio-rustls"] }
+
+# For storing inflight Mongo events
+dashmap = "5"
 
 [features]
 default = ["mongodb"]
+
+# Enable MongoDB instrumentation
 mongodb = ["dep:mongodb"]
-# sqlx = ["dep:sqlx"]
+
+# Enable SQLx tracing layer automatically
+sqlx = ["dep:sqlx"]

@@ -1,25 +1,22 @@
-pub mod middleware;
-pub mod stats;
-mod task_ctx;
+// /Users/snm/Equicom/workspace/NS/crates/moniof/src/lib.rs
+pub mod config;
+pub mod core;
+pub mod instrumentation;
+pub mod observability;
+pub mod services;
 
-pub mod options;
-pub use options::{MoniOFGlobalConfig, init_global, global};
+// Keep public API roughly compatible:
+pub use config::{MoniOFGlobalConfig, initiate, global};
+pub use config::MoniOFConfig;
+pub use services::http::MoniOF;
 
-pub use middleware::{MoniOF, MoniOFConfig};
+
+pub use observability::prom;
+
 
 #[cfg(feature = "mongodb")]
-pub mod mongo_events;
+pub use instrumentation::mongo_events::MOFMongoEvents;
 
-// Optional wrapper mode (not required for zero-refactor event-hook setup)
-#[cfg(feature = "mongodb")]
-pub mod mongo;
 
-// Optional (future) SQLx layer
 #[cfg(feature = "sqlx")]
-pub mod sqlx_layer;
-
-// Prometheus metrics
-pub mod prom;
-
-
-mod slack;
+pub use instrumentation::sql_events::MOFSqlEvents;

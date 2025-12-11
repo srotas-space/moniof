@@ -52,7 +52,7 @@ impl QueryStatsHandle {
     pub fn new() -> Self { Self(Arc::new(Mutex::new(QueryStats::new()))) }
 }
 
-// Helper for SQL normalization (if you enable sqlx layer later)
+// SQL normalization helper (used by sqlx layer)
 pub fn normalize_sql(sql: &str) -> String {
     let mut reduced = sql.split_whitespace().collect::<Vec<_>>().join(" ");
     if reduced.len() > 200 { reduced.truncate(200); }
