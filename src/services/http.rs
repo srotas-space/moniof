@@ -267,7 +267,7 @@ where
                                 ));
                             }
                         }
-                        tokio::spawn(slack::notify(hook, lines.join("\n")));
+                        tokio::spawn(slack::notify(Some(hook), lines.join("\n")));
                     }
                 }
             }

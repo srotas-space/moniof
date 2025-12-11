@@ -123,7 +123,7 @@ impl CommandEventHandler for MOFMongoEvents {
                         "🐢 *Slow MongoDB command*\n• `key`: `{}`\n• `latency`: {} ms",
                         logical_key, ms
                     );
-                    tokio::spawn(slack::notify(hook.clone(), text));
+                    tokio::spawn(slack::notify(Some(hook.clone()), text));
                 }
             }
         }
@@ -170,7 +170,7 @@ impl CommandEventHandler for MOFMongoEvents {
                 "❌ *MongoDB command failed*\n• `key`: `{}`\n• `latency`: {} ms",
                 logical_key, ms
             );
-            tokio::spawn(slack::notify(hook.clone(), text));
+            tokio::spawn(slack::notify(Some(hook.clone()), text));
         }
     }
 }
